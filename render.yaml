@@ -2,7 +2,7 @@ services:
   - type: web
     name: ai-customer-support-system
     runtime: python
-    buildCommand: pip install -r requirements.txt && python -c "import nltk; nltk.download('punkt'); nltk.download('punkt_tab')"
+    buildCommand: pip install -r requirements.txt && python scripts/setup_nltk.py
     startCommand: uvicorn backend.app:app --host 0.0.0.0 --port 10000
     envVars:
       - key: PORT
