@@ -1,0 +1,251 @@
+{
+  "intents": [
+    {
+      "tag": "greeting",
+      "patterns": [
+        "Hi",
+        "Hey",
+        "How are you",
+        "Is anyone there?",
+        "Hello",
+        "Good day",
+        "What's up",
+        "Howdy"
+      ],
+      "responses": [
+        "Hello! Welcome to customer support. How can I help you today?",
+        "Hi there! What can I assist you with?",
+        "Hey! How can I help you today?",
+        "Hello, thanks for reaching out. How may I assist you?"
+      ]
+    },
+    {
+      "tag": "goodbye",
+      "patterns": [
+        "Bye",
+        "See you later",
+        "Goodbye",
+        "Thanks, bye",
+        "See you",
+        "I'm done"
+      ],
+      "responses": [
+        "Goodbye! Feel free to reach out anytime.",
+        "See you later! Have a great day.",
+        "Bye! Don't hesitate to contact us again."
+      ]
+    },
+    {
+      "tag": "thanks",
+      "patterns": [
+        "Thanks",
+        "Thank you",
+        "That's helpful",
+        "Thanks a lot",
+        "Appreciate it",
+        "Thank you so much"
+      ],
+      "responses": [
+        "Happy to help!",
+        "You're welcome!",
+        "My pleasure!",
+        "Glad I could assist!"
+      ]
+    },
+    {
+      "tag": "billing",
+      "patterns": [
+        "I have a billing issue",
+        "My bill is wrong",
+        "I was overcharged",
+        "Can you explain my bill",
+        "Billing inquiry",
+        "I need help with my invoice",
+        "There is an error on my bill",
+        "Why was I charged extra"
+      ],
+      "responses": [
+        "I'd be happy to help with your billing concern. Could you provide your account number so I can look into it?",
+        "Let me help with your billing issue. Can you share more details about the charge in question?",
+        "I understand billing issues can be frustrating. Let me look into this for you."
+      ]
+    },
+    {
+      "tag": "account",
+      "patterns": [
+        "I want to update my account",
+        "How do I change my password",
+        "Can I change my email",
+        "Update my profile",
+        "I need to change my account details",
+        "How to reset my password",
+        "Change my billing address",
+        "Update my contact information"
+      ],
+      "responses": [
+        "You can update your account details in the Account Settings section. Would you like me to guide you through it?",
+        "I can help you with account changes. What specific information would you like to update?",
+        "To update your account, please go to Settings > Account. Let me know if you need more help."
+      ]
+    },
+    {
+      "tag": "order_status",
+      "patterns": [
+        "Where is my order",
+        "Track my order",
+        "Order status",
+        "When will my order arrive",
+        "I want to check my order",
+        "Has my order shipped",
+        "What is the delivery status",
+        "When will I receive my package"
+      ],
+      "responses": [
+        "I can help you track your order. Could you provide your order number?",
+        "Let me check the status of your order. What is your order ID?",
+        "I'd be happy to look up your order status. Please share your order number."
+      ]
+    },
+    {
+      "tag": "refund",
+      "patterns": [
+        "I want a refund",
+        "How do I get a refund",
+        "Can I return this",
+        "Return policy",
+        "I need my money back",
+        "Process my refund",
+        "I want to return my order",
+        "How long does a refund take"
+      ],
+      "responses": [
+        "I understand you'd like a refund. Our refund policy allows returns within 30 days of purchase. Can you provide your order number?",
+        "I can help with your refund request. Please provide your order details and reason for the return.",
+        "Refunds are typically processed within 5-7 business days. Let me help you get started."
+      ]
+    },
+    {
+      "tag": "technical_support",
+      "patterns": [
+        "Something is not working",
+        "I have a technical issue",
+        "The app is crashing",
+        "I found a bug",
+        "System error",
+        "The website is down",
+        "I can't log in",
+        "Feature not working"
+      ],
+      "responses": [
+        "I'm sorry to hear you're having technical issues. Can you describe the problem in more detail?",
+        "Let me help troubleshoot that for you. What exactly is happening?",
+        "I understand that's frustrating. Could you tell me what device and browser you're using?"
+      ]
+    },
+    {
+      "tag": "shipping",
+      "patterns": [
+        "What are the shipping options",
+        "How much is shipping",
+        "Do you offer free shipping",
+        "Shipping cost",
+        "How long does shipping take",
+        "International shipping",
+        "Express delivery available",
+        "Shipping methods"
+      ],
+      "responses": [
+        "We offer standard (5-7 days), express (2-3 days), and overnight shipping. Free shipping on orders over $50.",
+        "Shipping costs vary by location and method. Standard shipping starts at $4.99.",
+        "We ship domestically and internationally. Would you like details on a specific shipping method?"
+      ]
+    },
+    {
+      "tag": "cancel_order",
+      "patterns": [
+        "Cancel my order",
+        "I want to cancel",
+        "How to cancel an order",
+        "Stop my order",
+        "I changed my mind about my order",
+        "Can I cancel my purchase",
+        "I don't want this order anymore"
+      ],
+      "responses": [
+        "I can help you cancel your order. Please provide your order number and I'll process the cancellation.",
+        "Orders can be cancelled within 24 hours of placement. What is your order number?",
+        "Let me help with the cancellation. Could you share your order ID?"
+      ]
+    },
+    {
+      "tag": "plan_info",
+      "patterns": [
+        "What plans do you have",
+        "Tell me about your plans",
+        "Pricing information",
+        "What are your subscription options",
+        "How much does it cost",
+        "Do you have a free plan",
+        "Plan comparison",
+        "What features are included"
+      ],
+      "responses": [
+        "We offer Basic ($9.99/mo), Pro ($19.99/mo), and Enterprise (custom pricing) plans. Would you like details on any specific plan?",
+        "Our plans are designed to fit different needs. Would you like me to walk you through the options?",
+        "I'd be happy to help you find the right plan. What features are most important to you?"
+      ]
+    },
+    {
+      "tag": "complaint",
+      "patterns": [
+        "I want to make a complaint",
+        "I'm not satisfied",
+        "This is unacceptable",
+        "I want to speak to a manager",
+        "Your service is terrible",
+        "I'm very disappointed",
+        "This is the worst experience",
+        "I need to escalate this"
+      ],
+      "responses": [
+        "I'm sorry to hear about your experience. I take your feedback seriously. Can you tell me more about what happened?",
+        "I apologize for the inconvenience. Let me see what I can do to resolve this for you.",
+        "Your satisfaction is our priority. Please share the details and I'll do my best to help."
+      ]
+    },
+    {
+      "tag": "hours",
+      "patterns": [
+        "What are your hours",
+        "When are you open",
+        "Business hours",
+        "Are you open on weekends",
+        "Support availability",
+        "What time do you close",
+        "Do you have 24/7 support"
+      ],
+      "responses": [
+        "Our customer support is available 24/7 via chat. Phone support is available Mon-Fri, 9am-6pm EST.",
+        "We're here to help around the clock through chat. Phone lines are open Monday to Friday, 9am to 6pm EST.",
+        "Our chat support operates 24/7. For phone support, we're available weekdays 9am-6pm EST."
+      ]
+    },
+    {
+      "tag": "contact",
+      "patterns": [
+        "How can I contact you",
+        "What is your email",
+        "Phone number",
+        "Contact information",
+        "How to reach support",
+        "Is there a phone number I can call",
+        "Can I email you"
+      ],
+      "responses": [
+        "You can reach us via email at support@example.com, by phone at 1-800-555-0100, or through this chat.",
+        "Our contact options: Email (support@example.com), Phone (1-800-555-0100), or Live Chat (right here!).",
+        "Feel free to email us at support@example.com or call 1-800-555-0100. We're also here via chat."
+      ]
+    }
+  ]
+}

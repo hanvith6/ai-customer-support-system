@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Customer Support</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+    <!-- Floating toggle button (integrated from AI-Chatbot-DL-NLP React UI) -->
+    <button class="widget-toggle" id="widgetToggle" aria-label="Open chat">
+        <span class="widget-toggle__icon" id="toggleIcon">&#x1f4ac;</span>
+    </button>
+
+    <div class="chat-container" id="chatContainer">
+        <header class="chat-header">
+            <div class="header-icon">&#x1f916;</div>
+            <div>
+                <h1>AI Customer Support</h1>
+                <span class="status-badge">Online</span>
+            </div>
+            <button class="close-btn" id="closeChat" aria-label="Close chat">&times;</button>
+        </header>
+
+        <div class="chat-messages" id="chatMessages">
+            <div class="message bot-message">
+                <div class="message-content">
+                    Hello! Welcome to customer support. How can I help you today?
+                </div>
+                <div class="message-meta">Bot</div>
+            </div>
+        </div>
+
+        <!-- Quick-reply suggestions (integrated from AI-Chatbot-DL-NLP React UI) -->
+        <div class="quick-replies" id="quickReplies">
+            <button class="quick-reply-btn" data-msg="I have a billing issue">Billing Issue</button>
+            <button class="quick-reply-btn" data-msg="Where is my order">Track Order</button>
+            <button class="quick-reply-btn" data-msg="I need technical support">Tech Support</button>
+            <button class="quick-reply-btn" data-msg="What plans do you have">View Plans</button>
+        </div>
+
+        <div id="typingIndicator" class="typing-indicator" style="display:none;">
+            <span></span><span></span><span></span>
+        </div>
+
+        <form class="chat-input" id="chatForm">
+            <input
+                type="text"
+                id="userInput"
+                placeholder="Type your message..."
+                autocomplete="off"
+                maxlength="1000"
+                required
+            />
+            <button type="submit" id="sendBtn">Send</button>
+        </form>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>

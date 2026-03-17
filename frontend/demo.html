@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Customer Support - Live Demo</title>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* ── Header ─────────────────────────────────────────────── */
+        .header {
+            text-align: center;
+            padding: 2.5rem 1rem 1.5rem;
+            max-width: 720px;
+            width: 100%;
+        }
+        .header h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #f8fafc;
+            margin-bottom: 0.5rem;
+        }
+        .header p {
+            font-size: 0.95rem;
+            color: #94a3b8;
+            line-height: 1.5;
+        }
+        .badges { margin-top: 0.75rem; display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; }
+        .badge {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 999px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .badge-pytorch  { background: #EE4C2C20; color: #EE4C2C; border: 1px solid #EE4C2C40; }
+        .badge-bert     { background: #F5A62320; color: #F5A623; border: 1px solid #F5A62340; }
+        .badge-fastapi  { background: #00968820; color: #00C9A7; border: 1px solid #00968840; }
+        .badge-sentiment{ background: #8B5CF620; color: #A78BFA; border: 1px solid #8B5CF640; }
+
+        /* ── Chat container ─────────────────────────────────────── */
+        .chat-wrapper {
+            width: 100%;
+            max-width: 720px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 0 1rem 1rem;
+        }
+        .chat-box {
+            flex: 1;
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            min-height: 420px;
+            max-height: 70vh;
+        }
+        .messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        /* ── Messages ───────────────────────────────────────────── */
+        .msg {
+            max-width: 85%;
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            word-wrap: break-word;
+        }
+        .msg-user {
+            align-self: flex-end;
+            background: #3b82f6;
+            color: #fff;
+            border-bottom-right-radius: 4px;
+        }
+        .msg-bot {
+            align-self: flex-start;
+            background: #334155;
+            color: #e2e8f0;
+            border-bottom-left-radius: 4px;
+        }
+        .msg-error {
+            align-self: flex-start;
+            background: #7f1d1d;
+            color: #fecaca;
+            border-bottom-left-radius: 4px;
+        }
+
+        /* ── Metadata cards ─────────────────────────────────────── */
+        .meta-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            margin-top: 0.6rem;
+        }
+        .meta-card {
+            background: #1e293b;
+            border: 1px solid #475569;
+            border-radius: 8px;
+            padding: 0.5rem 0.65rem;
+        }
+        .meta-card.full { grid-column: 1 / -1; }
+        .meta-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #64748b;
+            margin-bottom: 0.2rem;
+        }
+        .meta-value {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #f1f5f9;
+        }
+        .meta-value.intent   { color: #38bdf8; }
+        .meta-value.positive { color: #4ade80; }
+        .meta-value.negative { color: #f87171; }
+        .entity-tag {
+            display: inline-block;
+            background: #8B5CF620;
+            color: #c4b5fd;
+            border: 1px solid #8B5CF640;
+            border-radius: 4px;
+            padding: 0.15rem 0.45rem;
+            font-size: 0.75rem;
+            margin: 0.15rem 0.2rem 0.15rem 0;
+        }
+
+        /* ── Typing indicator ───────────────────────────────────── */
+        .typing { display: none; align-self: flex-start; padding: 0.75rem 1rem; }
+        .typing.show { display: flex; }
+        .typing span {
+            width: 7px; height: 7px; background: #64748b; border-radius: 50%;
+            margin-right: 4px; animation: blink 1.4s infinite both;
+        }
+        .typing span:nth-child(2) { animation-delay: 0.2s; }
+        .typing span:nth-child(3) { animation-delay: 0.4s; margin-right: 0; }
+        @keyframes blink { 0%,80%,100%{opacity:.3} 40%{opacity:1} }
+
+        /* ── Input bar ──────────────────────────────────────────── */
+        .input-bar {
+            display: flex;
+            border-top: 1px solid #334155;
+            background: #1e293b;
+        }
+        .input-bar input {
+            flex: 1;
+            padding: 0.85rem 1rem;
+            border: none;
+            background: transparent;
+            color: #e2e8f0;
+            font-size: 0.9rem;
+            outline: none;
+        }
+        .input-bar input::placeholder { color: #64748b; }
+        .input-bar button {
+            padding: 0.85rem 1.4rem;
+            border: none;
+            background: #3b82f6;
+            color: #fff;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .input-bar button:hover { background: #2563eb; }
+        .input-bar button:disabled { background: #475569; cursor: not-allowed; }
+
+        /* ── Quick replies ──────────────────────────────────────── */
+        .quick-replies {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            padding: 0.75rem 1.25rem;
+            border-top: 1px solid #334155;
+            background: #1e293b;
+        }
+        .qr-btn {
+            padding: 0.35rem 0.75rem;
+            border-radius: 999px;
+            border: 1px solid #475569;
+            background: transparent;
+            color: #94a3b8;
+            font-size: 0.78rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .qr-btn:hover { border-color: #3b82f6; color: #3b82f6; }
+
+        /* ── Footer ─────────────────────────────────────────────── */
+        .footer {
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.75rem;
+            color: #475569;
+        }
+        .footer a { color: #64748b; text-decoration: none; }
+        .footer a:hover { color: #94a3b8; }
+
+        /* ── Responsive ─────────────────────────────────────────── */
+        @media (max-width: 520px) {
+            .header h1 { font-size: 1.35rem; }
+            .meta-grid { grid-template-columns: 1fr; }
+            .chat-box { min-height: 350px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>AI Customer Support System</h1>
+        <p>Type a message below to interact with the AI pipeline. The system classifies intent, extracts named entities, and analyzes sentiment in real time.</p>
+        <div class="badges">
+            <span class="badge badge-pytorch">PyTorch Intent Model</span>
+            <span class="badge badge-bert">BERT NER</span>
+            <span class="badge badge-sentiment">DistilBERT Sentiment</span>
+            <span class="badge badge-fastapi">FastAPI</span>
+        </div>
+    </div>
+
+    <div class="chat-wrapper">
+        <div class="chat-box">
+            <div class="messages" id="messages">
+                <div class="msg msg-bot">
+                    Welcome! I'm an AI customer support assistant. Try asking about billing, orders, technical issues, or anything else.
+                </div>
+            </div>
+
+            <div class="typing" id="typing">
+                <span></span><span></span><span></span>
+            </div>
+
+            <div class="quick-replies" id="quickReplies">
+                <button class="qr-btn" data-msg="I have a billing issue">Billing Issue</button>
+                <button class="qr-btn" data-msg="Where is my order?">Track Order</button>
+                <button class="qr-btn" data-msg="My internet is not working">Tech Support</button>
+                <button class="qr-btn" data-msg="I want to cancel my subscription">Cancel</button>
+                <button class="qr-btn" data-msg="My name is John and I live in New York">Entity Test</button>
+            </div>
+
+            <form class="input-bar" id="chatForm">
+                <input type="text" id="userInput" placeholder="Type your message..." autocomplete="off" />
+                <button type="submit" id="sendBtn">Send</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a href="/docs">API Docs (Swagger)</a> &nbsp;|&nbsp;
+        <a href="/health">Health Check</a> &nbsp;|&nbsp;
+        <a href="/">Chat Widget</a>
+    </div>
+
+    <script>
+        const API_BASE = window.location.hostname === "localhost"
+            ? "http://localhost:8000"
+            : "";
+        const API_URL = API_BASE + "/chat";
+
+        const messages    = document.getElementById("messages");
+        const chatForm    = document.getElementById("chatForm");
+        const userInput   = document.getElementById("userInput");
+        const sendBtn     = document.getElementById("sendBtn");
+        const typing      = document.getElementById("typing");
+        const quickReplies = document.getElementById("quickReplies");
+
+        function scrollBottom() { messages.scrollTop = messages.scrollHeight; }
+
+        function escapeHtml(t) {
+            const d = document.createElement("div");
+            d.textContent = t;
+            return d.innerHTML;
+        }
+
+        function addUser(text) {
+            const el = document.createElement("div");
+            el.className = "msg msg-user";
+            el.textContent = text;
+            messages.appendChild(el);
+            scrollBottom();
+        }
+
+        function addBot(data) {
+            const wrap = document.createElement("div");
+            wrap.style.alignSelf = "flex-start";
+            wrap.style.maxWidth = "85%";
+            wrap.style.display = "flex";
+            wrap.style.flexDirection = "column";
+            wrap.style.gap = "0";
+
+            // Response text
+            const msg = document.createElement("div");
+            msg.className = "msg msg-bot";
+            msg.textContent = data.response;
+            wrap.appendChild(msg);
+
+            // Metadata grid
+            const grid = document.createElement("div");
+            grid.className = "meta-grid";
+            grid.style.marginTop = "0.5rem";
+
+            // Intent card
+            const intentCard = makeCard("Intent", data.intent, "intent");
+            grid.appendChild(intentCard);
+
+            // Confidence card
+            const confCard = makeCard("Confidence", (data.confidence * 100).toFixed(1) + "%");
+            grid.appendChild(confCard);
+
+            // Sentiment card
+            if (data.sentiment && data.sentiment.label) {
+                const sClass = data.sentiment.label === "POSITIVE" ? "positive" : "negative";
+                const sText = data.sentiment.label + " (" + (data.sentiment.score * 100).toFixed(0) + "%)";
+                const sentCard = makeCard("Sentiment", sText, sClass);
+                grid.appendChild(sentCard);
+            }
+
+            // Entities card
+            if (data.entities && data.entities.length > 0) {
+                const entCard = document.createElement("div");
+                entCard.className = "meta-card";
+                const lbl = document.createElement("div");
+                lbl.className = "meta-label";
+                lbl.textContent = "Entities";
+                entCard.appendChild(lbl);
+                const val = document.createElement("div");
+                data.entities.forEach(function(e) {
+                    const tag = document.createElement("span");
+                    tag.className = "entity-tag";
+                    tag.textContent = e.word + " [" + e.entity + "]";
+                    val.appendChild(tag);
+                });
+                entCard.appendChild(val);
+                grid.appendChild(entCard);
+            }
+
+            wrap.appendChild(grid);
+            messages.appendChild(wrap);
+            scrollBottom();
+        }
+
+        function makeCard(label, value, valueClass) {
+            const card = document.createElement("div");
+            card.className = "meta-card";
+            const lbl = document.createElement("div");
+            lbl.className = "meta-label";
+            lbl.textContent = label;
+            const val = document.createElement("div");
+            val.className = "meta-value" + (valueClass ? " " + valueClass : "");
+            val.textContent = value;
+            card.appendChild(lbl);
+            card.appendChild(val);
+            return card;
+        }
+
+        function addError(text) {
+            const el = document.createElement("div");
+            el.className = "msg msg-error";
+            el.textContent = text;
+            messages.appendChild(el);
+            scrollBottom();
+        }
+
+        async function send(text) {
+            sendBtn.disabled = true;
+            typing.classList.add("show");
+            scrollBottom();
+
+            try {
+                const res = await fetch(API_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ text: text }),
+                });
+                typing.classList.remove("show");
+
+                if (!res.ok) {
+                    const err = await res.json().catch(function() { return { detail: "Server error" }; });
+                    addError(err.detail || "Something went wrong.");
+                    return;
+                }
+                addBot(await res.json());
+            } catch (e) {
+                typing.classList.remove("show");
+                addError("Unable to reach the server. Is the API running?");
+            } finally {
+                sendBtn.disabled = false;
+                userInput.focus();
+            }
+        }
+
+        chatForm.addEventListener("submit", function(e) {
+            e.preventDefault();
+            const text = userInput.value.trim();
+            if (!text) return;
+            addUser(text);
+            userInput.value = "";
+            send(text);
+        });
+
+        quickReplies.addEventListener("click", function(e) {
+            const btn = e.target.closest(".qr-btn");
+            if (!btn) return;
+            const msg = btn.getAttribute("data-msg");
+            addUser(msg);
+            send(msg);
+        });
+
+        userInput.focus();
+    </script>
+</body>
+</html>
