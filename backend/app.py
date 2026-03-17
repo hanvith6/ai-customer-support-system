@@ -70,16 +70,25 @@ def _check_rate_limit(client_ip: str) -> None:
 
 @app.get("/")
 async def root():
-    """Serve the frontend chat UI."""
+    """Serve the full-page demo UI as the landing page."""
+    demo_path = _frontend_dir / "demo.html"
+    if demo_path.exists():
+        return FileResponse(str(demo_path))
+    return {"message": "AI Customer Support System API", "docs": "/docs"}
+
+
+@app.get("/widget")
+async def widget():
+    """Serve the floating chat widget UI."""
     index_path = _frontend_dir / "index.html"
     if index_path.exists():
         return FileResponse(str(index_path))
-    return {"message": "AI Customer Support System API", "docs": "/docs"}
+    return {"message": "Widget not found. Ensure frontend/index.html exists."}
 
 
 @app.get("/demo")
 async def demo():
-    """Serve the standalone demo page for recruiter review."""
+    """Serve the standalone demo page (alias for /)."""
     demo_path = _frontend_dir / "demo.html"
     if demo_path.exists():
         return FileResponse(str(demo_path))
