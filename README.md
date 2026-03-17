@@ -9,6 +9,8 @@ An AI-powered customer support platform that routes user messages through a **Py
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.0%2B-EE4C2C?logo=pytorch&logoColor=white)](https://pytorch.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
+**[Live Demo](https://ai-customer-support-system-production.up.railway.app) · [API Docs](https://ai-customer-support-system-production.up.railway.app/docs) · [Health Check](https://ai-customer-support-system-production.up.railway.app/health)**
+
 </div>
 
 ---
@@ -93,14 +95,14 @@ See [`docs/architecture.md`](docs/architecture.md) for the full component breakd
 
 ## Live Demo
 
-Once deployed (or running locally), open these URLs in your browser:
+**Deployed on Railway:** https://ai-customer-support-system-production.up.railway.app
 
 | URL | Description |
 |-----|-------------|
-| `/` | Full-page demo UI -- interactive chat with intent, entity, and sentiment display |
-| `/widget` | Floating chat widget |
-| `/docs` | Interactive Swagger API documentation |
-| `/health` | JSON health check |
+| [`/`](https://ai-customer-support-system-production.up.railway.app/) | Full-page demo UI -- interactive chat with intent, entity, and sentiment display |
+| [`/widget`](https://ai-customer-support-system-production.up.railway.app/widget) | Floating chat widget |
+| [`/docs`](https://ai-customer-support-system-production.up.railway.app/docs) | Interactive Swagger API documentation |
+| [`/health`](https://ai-customer-support-system-production.up.railway.app/health) | JSON health check |
 
 ---
 
@@ -144,9 +146,9 @@ curl http://localhost:8000/health
 { "status": "ok", "service": "AI Customer Support System" }
 ```
 
-**Test on a deployed URL:**
+**Test on the live deployed API:**
 ```bash
-curl -X POST https://your-deployment-url.onrender.com/chat \
+curl -X POST https://ai-customer-support-system-production.up.railway.app/chat \
   -H "Content-Type: application/json" \
   -d '{"text": "I want a refund for my last order"}'
 ```
