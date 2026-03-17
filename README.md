@@ -97,10 +97,10 @@ Once deployed (or running locally), open these URLs in your browser:
 
 | URL | Description |
 |-----|-------------|
-| `/demo` | Full-page demo UI -- interactive chat with intent, entity, and sentiment display |
+| `/` | Full-page demo UI -- interactive chat with intent, entity, and sentiment display |
+| `/widget` | Floating chat widget |
 | `/docs` | Interactive Swagger API documentation |
 | `/health` | JSON health check |
-| `/` | Floating chat widget |
 
 ---
 
@@ -186,8 +186,8 @@ The server starts at **http://localhost:8000**.
 
 | URL | Description |
 |-----|-------------|
-| `http://localhost:8000` | Chat widget |
-| `http://localhost:8000/demo` | Full-page demo UI |
+| `http://localhost:8000` | Full-page demo UI |
+| `http://localhost:8000/widget` | Floating chat widget |
 | `http://localhost:8000/docs` | Interactive API docs (Swagger) |
 | `http://localhost:8000/health` | Health check |
 
@@ -290,7 +290,7 @@ A pretrained model (`model/data.pth`) is included. To retrain:
    - **Build Command:** `pip install -r requirements.txt`
    - **Start Command:** `uvicorn backend.app:app --host 0.0.0.0 --port 10000`
    - **Environment:** Python 3.10+
-4. Deploy. Your demo is live at `https://your-service.onrender.com/demo`.
+4. Deploy. Your demo is live at `https://your-service.onrender.com`.
 
 ### Railway
 

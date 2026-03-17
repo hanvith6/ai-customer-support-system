@@ -86,15 +86,6 @@ async def widget():
     return {"message": "Widget not found. Ensure frontend/index.html exists."}
 
 
-@app.get("/demo")
-async def demo():
-    """Serve the standalone demo page (alias for /)."""
-    demo_path = _frontend_dir / "demo.html"
-    if demo_path.exists():
-        return FileResponse(str(demo_path))
-    return {"message": "Demo page not found. Ensure frontend/demo.html exists."}
-
-
 @app.get("/health")
 async def health():
     """Service health check."""
